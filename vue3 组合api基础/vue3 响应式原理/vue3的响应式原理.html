@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let person = {
+      name: '马大帅',
+      age: 18
+    }
+
+    const p = new Proxy(person, {
+      // 有人读取person对象某个属性时调用
+      get(target, ele) {
+        console.log(`有人读取person对象的${ele}了`);
+        // 使用Reflect来反射对象
+        return Reflect.get(target, ele);
+      },
+      // 有人修改或添加person对象某个属性时调用
+      set(target, ele, value) {
+        console.log(`有人修改或添加person对象的${ele}了`);
+        Reflect.set(target, ele, value)
+      },
+      // 有人删除person对象某个属性时调用
+      deleteProperty(target, ele) {
+        console.log(`有人删除person对象的${ele}了`);
+        return Reflect.deleteProperty(target, ele)
+      }
+    })
+    console.log(p)
+    console.log("----------------------");
+
+    // 读取
+    console.log(p.name)
+    console.log("----------------------");
+
+    // 修改和添加
+    p.name = '范德彪';
+    p.sex = '男'
+    console.log(p)
+    console.log("----------------------");
+
+    // 删除
+    delete p.name
+    console.log(p)
+    console.log("----------------------");
+  </script>
+</body>
+
+</html>
